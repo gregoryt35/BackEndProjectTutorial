@@ -48,9 +48,6 @@ app.delete('/api/courses/:id', (req,res)=>{
         //delete the course by index HINT: use the indexOf() and splice() methods
         // return the response to the client the course that was deleted
 });
-    
-    
-    
 
 // request course by id
 app.get('/api/courses/:id', (req,res)=>{
