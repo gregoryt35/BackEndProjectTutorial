@@ -1,4 +1,5 @@
 const express = require('express');
+const { send } = require('process');
 const app = express();
 
 app.use(express.json());
@@ -8,7 +9,7 @@ app.get('/', (req,res)=>{
 });
 
 const courses = [
-    {id: 1, name:'Web Development'},
+    {id:1, name:'Web Development'},
     {id:2, name: 'IT'},
     {id:3, name: 'Cybersecurity'},
 ];
@@ -20,16 +21,14 @@ app.get('/api/courses', (req,res)=>{
 
 // http POST requests route
 app.post('/api/courses', (req,res) => {
-    // you write the if code here
-    //add an if statement so that the name of the course you post is .min(3) characters 
-        const course ={
-            //we assign an ID and a name property
+    if (req.body.name && req.body.name.length > 4) {
+        const course = {
             id: courses.length +1,
-            name:req.body.name
+            name:req.body.name;
+        }
     }
-        //YOU WRITE THE NEXT LINES OF code
-        //next step: push it to the array
-        //next step: the server should return the new resource to the client in the body of the response
+        courses.push(course);
+        return course;
 });
 
 // here we need the specific id of the course we want to update

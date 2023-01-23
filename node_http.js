@@ -1,5 +1,5 @@
 const http = require('http');
-//what does this do?
+// what does this do?
 // this makes the server listen for HTTP requests
 const server = http.createServer((req, res) => {
     if (req.url === '/') {
