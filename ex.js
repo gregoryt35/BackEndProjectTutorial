@@ -21,31 +21,58 @@ app.get('/api/courses', (req,res)=>{
 
 // http POST requests route
 app.post('/api/courses', (req,res) => {
-    if (req.body.name && req.body.name.length > 4) {
+    if (Object.values(req.body)[0].length > 3) {
         const course = {
             id: courses.length +1,
-            name:req.body.name;
+            name:req.body.name
         }
-    }
         courses.push(course);
-        return course;
+        res.send(course);
+        return 200;
+    }
+    else {
+        return 404;
+    }   
 });
 
 // here we need the specific id of the course we want to update
 app.put('/api/courses/:id', (req,res)=>{
-    // Write the code in order to look up the course, if not existing return a 404
-            //otherwise 
-                    //update the course
-                    //return the updated course
+    const course = courses.find(c=> c.id === parseInt(req.params.id));
+    if (!course) {
+        res.status(404).send("The course with the given ID was not found");
+        return 404;
+    }
+    else if (Object.values(req.body)[0].length > 3){
+        const newCourse ={
+            id: req.params.id,
+            name:req.body.name    
+        }
+        const num = courses.indexOf(course)
+        courses[num] = newCourse;
+        res.send(newCourse);
+        return 200;
+    }
+    else {
+        return 404;
+    }
 });
 
 // http DELETE request route
 app.delete('/api/courses/:id', (req,res)=>{
-    //code the following logic
-     //look up the course by id
-        //return 404 if does not exist
-        //delete the course by index HINT: use the indexOf() and splice() methods
-        // return the response to the client the course that was deleted
+    const course = courses.find(c=> c.id === parseInt(req.params.id));
+    if (!course) {
+        res.status(404).send("The course with the given ID was not found");
+        return 404;
+    }
+    else if (Object.values(req.body)[0].length > 3){
+        const num = courses.indexOf(course)
+        courses.splice(num);
+        res.send(course);
+        return 200;
+    }
+    else {
+        return 404;
+    }
 });
 
 // request course by id
@@ -53,10 +80,11 @@ app.get('/api/courses/:id', (req,res)=>{
     const course = courses.find(c=> c.id === parseInt(req.params.id));
     if (!course){
         res.status(404).send("The course with the given ID was not found");
-        return
+        return;
     }
-        res.send(course);
+    res.send(course);
 })
+
 app.listen(3000, () => {
     console.log('Listening on port 3000 ...');
 })
